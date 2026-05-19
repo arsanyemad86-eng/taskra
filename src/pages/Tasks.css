@@ -1,0 +1,119 @@
+.tasks-page .page-header h1 {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.tasks-page .subtitle {
+  color: var(--text-muted);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.add-form {
+  margin-bottom: 18px;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.tasks-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.filter-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--surface);
+  padding: 4px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+.filter-tab {
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: transparent;
+  transition: all 0.2s ease;
+}
+.filter-tab:hover {
+  color: var(--text);
+}
+.filter-tab.active {
+  background: var(--surface-2);
+  color: var(--primary);
+}
+.search-input {
+  max-width: 260px;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.task-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 18px;
+  transition: border-color 0.2s ease, transform 0.15s ease;
+}
+.task-row:hover {
+  border-color: var(--surface-2);
+}
+.task-row.task-done .task-title {
+  text-decoration: line-through;
+  color: var(--primary);
+  opacity: 0.65;
+}
+.task-body {
+  flex: 1;
+  min-width: 0;
+}
+.task-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.task-title {
+  font-size: 14px;
+  font-weight: 600;
+}
+.task-meta {
+  margin-top: 4px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+.task-due {
+  background: var(--surface-2);
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+.task-notes {
+  font-style: italic;
+}
+.task-delete {
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+@media (max-width: 720px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .search-input { max-width: 100%; }
+}

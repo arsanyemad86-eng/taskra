@@ -1,0 +1,128 @@
+.pomodoro-page .page-header h1 {
+  font-size: 22px;
+  font-weight: 800;
+}
+.pomodoro-page .subtitle {
+  color: var(--text-muted);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.mode-tabs {
+  display: flex;
+  gap: 6px;
+  background: var(--surface);
+  padding: 5px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  width: fit-content;
+  margin: 0 auto 28px;
+}
+.mode-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: all 0.2s ease;
+}
+.mode-tab:hover { color: var(--text); }
+.mode-tab.active {
+  background: var(--surface-2);
+  color: var(--primary);
+}
+.mode-min {
+  font-size: 11px;
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+.timer-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.timer-circle {
+  position: relative;
+  width: 320px;
+  height: 320px;
+}
+.timer-svg {
+  display: block;
+}
+.timer-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  pointer-events: none;
+}
+.timer-mode {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.timer-time {
+  font-size: 60px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.timer-session {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+.timer-controls {
+  display: flex;
+  gap: 10px;
+}
+.timer-btn {
+  padding: 12px 28px;
+  font-size: 13px;
+}
+
+.pomo-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  max-width: 520px;
+  margin: 0 auto;
+}
+.pomo-stat {
+  text-align: center;
+}
+.pomo-stat-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.pomo-stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 560px) {
+  .timer-circle { width: 280px; height: 280px; }
+  .timer-svg { width: 280px; height: 280px; }
+  .timer-time { font-size: 48px; }
+  .pomo-stats { grid-template-columns: 1fr; }
+}
