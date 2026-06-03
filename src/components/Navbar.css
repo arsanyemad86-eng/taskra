@@ -43,9 +43,7 @@
   transition: color 0.2s ease, border-color 0.2s ease;
 }
 
-.navbar-link:hover {
-  color: var(--text);
-}
+.navbar-link:hover { color: var(--text); }
 
 .navbar-link.active {
   color: var(--primary);
@@ -56,16 +54,109 @@
   font-size: 13px;
   color: var(--text-muted);
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
+/* Hamburger Button */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.hamburger-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.hamburger-icon span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.hamburger-icon.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.hamburger-icon.open span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger-icon.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-direction: column;
+  padding: 12px 0;
+  z-index: 49;
+}
+
+.mobile-link {
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.mobile-link:hover {
+  color: var(--text);
+  background: var(--border);
+}
+
+.mobile-link.active {
+  color: var(--primary);
+}
+
+.mobile-logout {
+  margin: 8px 24px 4px;
+  padding: 10px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-muted);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mobile-logout:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* Responsive */
 @media (max-width: 720px) {
   .navbar {
     padding: 0 16px;
   }
   .navbar-links {
-    gap: 18px;
+    display: none;
   }
   .navbar-greeting {
     display: none;
+  }
+  .hamburger {
+    display: flex;
+  }
+  .mobile-menu {
+    display: flex;
   }
 }
