@@ -5,12 +5,14 @@ import { useGoals, goalProgress } from '../hooks/useGoals.js';
 import { usePomodoro } from '../hooks/usePomodoro.js';
 import { useStreak } from '../hooks/useStreak.js';
 import './Dashboard.css';
+import { useAuth } from '../context/AuthContext';
 
-function greeting() {
+
+function greeting(name) {
   const h = new Date().getHours();
-  if (h < 12) return { text: 'Good morning, Arsany', icon: '☀️' };
-  if (h < 18) return { text: 'Good afternoon, Arsany', icon: '🌤️' };
-  return { text: 'Good evening, Arsany', icon: '🌙' };
+  if (h < 12) return { text: `Good morning, ${name}`, icon: '☀️' };
+  if (h < 18) return { text: `Good afternoon, ${name}`, icon: '🌤️' };
+  return { text: `Good evening, ${name}`, icon: '🌙' };
 }
 
 function streakMessage(count) {
@@ -23,13 +25,14 @@ function streakMessage(count) {
 }
 
 export default function Dashboard() {
+  const { user } = useAuth();
   const { tasks, toggleTask, stats } = useTasks();
   const { notes } = useNotes();
   const { goals } = useGoals();
   const { todayStats } = usePomodoro();
   const streak = useStreak(tasks);
 
-  const g = greeting();
+  const g = greeting(user?.name || 'there');
   const today = todayKey();
 
   const tasksToday = tasks.filter((t) => t.dueDate === today);
@@ -80,7 +83,7 @@ export default function Dashboard() {
 
       {allTodayDone && (
         <div className="celebration">
-          Great work today, Arsany! 🎉 Every task done. Stack another tomorrow.
+          Great work today, {user?.name}! 🎉 Every task done. Stack another tomorrow.
         </div>
       )}
 

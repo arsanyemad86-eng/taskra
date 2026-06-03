@@ -1,5 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import './Navbar.css';
+import { useAuth } from '../context/AuthContext';
+
 
 const links = [
   { to: '/', label: 'Dashboard' },
@@ -7,9 +9,11 @@ const links = [
   { to: '/notes', label: 'Notes' },
   { to: '/goals', label: 'Goals' },
   { to: '/pomodoro', label: 'Pomodoro' },
+  { to: '/settings', label: 'Settings' },
 ];
 
 export default function Navbar() {
+  const { user, logout } = useAuth();
   return (
     <header className="navbar">
       <div className="navbar-logo">
@@ -33,8 +37,10 @@ export default function Navbar() {
       </nav>
 
       <div className="navbar-greeting">
-        Hey, Arsany <span aria-hidden="true">👋</span>
+        Hey, {user?.name} <span aria-hidden="true">👋</span>
+        <button onClick={logout} className="logout-btn">Logout</button>
       </div>
+
     </header>
   );
 }
