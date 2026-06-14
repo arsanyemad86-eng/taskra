@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    /* بيئة التشغيل: نفس الإصدارات الحديثة اللي Vite يدعمها */
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* JSX */
+    "jsx": "react-jsx",
+
+    /* السماح بوجود ملفات .js و .jsx جنب ملفات .ts و .tsx (تحويل تدريجي) */
+    "allowJs": true,
+    "checkJs": false,
+
+    /* طريقة استيراد الموديولات الخاصة بـ Vite (bundler) */
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+
+    /* المشروع ده بيستخدم امتدادات صريحة في الـ imports (.js, .jsx)
+       من الأساس - فبنسمح بنفس الأسلوب لـ .ts/.tsx عشان نفضل متّسقين */
+    "allowImportingTsExtensions": true,
+
+    /* فحص الأنواع - مفعّل لكن مش صارم جدًا في البداية */
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src"]
+}

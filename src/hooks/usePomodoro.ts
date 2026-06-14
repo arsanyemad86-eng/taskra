@@ -1,23 +1,30 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useLocalStorage } from './useLocalStorage.js';
+import { useLocalStorage } from './useLocalStorage.ts';
+import type { PomodoroMode, PomodoroSession } from '../types/index.ts';
 
 const STORAGE_KEY = 'taskra_pomodoro';
 
-export const MODES = {
+// Record<PomodoroMode, ...>: Record نوع جاهز معناه "object فيه مفتاح من
+// نوع PomodoroMode وقيمة من النوع المحدد". هنا بيضمن إن MODES فيها
+// بالضبط مفاتيح 'focus' | 'short' | 'long' - مش أكتر ومش أقل، وإن كل
+// واحدة فيها label و minutes.
+export const MODES: Record<PomodoroMode, { label: string; minutes: number }> = {
   focus: { label: 'Focus', minutes: 25 },
   short: { label: 'Short Break', minutes: 5 },
   long: { label: 'Long Break', minutes: 15 },
 };
 
 export function usePomodoro() {
-  const [sessions, setSessions] = useLocalStorage(STORAGE_KEY, []);
-  const [mode, setMode] = useState('focus');
+  const [sessions, setSessions] = useLocalStorage<PomodoroSession[]>(STORAGE_KEY, []);
+  const [mode, setMode] = useState<PomodoroMode>('focus');
   const [secondsLeft, setSecondsLeft] = useState(MODES.focus.minutes * 60);
   const [running, setRunning] = useState(false);
   const [sessionIndex, setSessionIndex] = useState(1); // 1..4 within a cycle
-  const [toast, setToast] = useState(null);
+  const [toast, setToast] = useState<string | null>(null);
 
-  const completionRef = useRef(null);
+  // useRef<boolean>(false): الكود الأصلي بدأ بـ useRef(null) واستخدمه
+  // كـ flag بقيمتين بس (true/false)، فـ boolean أدق من null وأوضح للقارئ.
+  const completionRef = useRef(false);
 
   // Tick
   useEffect(() => {
@@ -40,6 +47,7 @@ export function usePomodoro() {
     if (secondsLeft === 0 && running && completionRef.current) {
       completionRef.current = false;
       setRunning(false);
+      playDone();
 
       if (mode === 'focus') {
         // Save focus session
@@ -75,7 +83,38 @@ export function usePomodoro() {
     return () => clearTimeout(id);
   }, [toast]);
 
-  const switchMode = useCallback((nextMode) => {
+  const playDone = useCallback(() => {
+    try {
+      // window.webkitAudioContext مش موجود في تعريفات TypeScript الرسمية
+      // لـ DOM (بادئة `webkit` كانت اجتهاد متصفحات قديمة). بنستخدم
+      // `as any` هنا فقط لقراءة هذا الحقل القديم - حل موضعي مقصود
+      // بدل تعديل تعريفات DOM كلها من أجل API قديم لمتصفح واحد.
+      const AudioContextClass =
+        window.AudioContext || (window as any).webkitAudioContext;
+      const ctx = new AudioContextClass();
+      const playTone = (freq: number, startTime: number, duration: number) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        gain.gain.setValueAtTime(0.2, ctx.currentTime + startTime);
+        gain.gain.exponentialRampToValueAtTime(
+          0.0001,
+          ctx.currentTime + startTime + duration
+        );
+        osc.start(ctx.currentTime + startTime);
+        osc.stop(ctx.currentTime + startTime + duration);
+      };
+      playTone(880, 0, 0.15);
+      playTone(660, 0.2, 0.15);
+    } catch {
+      // Web Audio API unavailable — fail silently
+    }
+  }, []);
+
+  const switchMode = useCallback((nextMode: PomodoroMode) => {
     setMode(nextMode);
     setSecondsLeft(MODES[nextMode].minutes * 60);
     setRunning(false);
@@ -120,7 +159,7 @@ export function usePomodoro() {
   };
 }
 
-export function formatTime(seconds) {
+export function formatTime(seconds: number): string {
   const m = Math.floor(seconds / 60)
     .toString()
     .padStart(2, '0');

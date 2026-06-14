@@ -1,15 +1,25 @@
 import { useCallback } from 'react';
-import { useLocalStorage, uid } from './useLocalStorage.js';
+import { useLocalStorage, uid } from './useLocalStorage.ts';
+import type { Goal } from '../types/index.ts';
 
 const STORAGE_KEY = 'taskra_goals';
 
+// NewGoalInput: محلي هنا فقط لأنه مش مستخدم في أي ملف تاني
+// (مقارنة بـ NewTaskInput اللي وضعناه في types/index.ts لأنه عام).
+// مفيش قاعدة "كل الـ types لازم تكون في ملف مشترك" - الـ type المحلي
+// يفضل جنب الكود اللي يستخدمه لو مفيش حاجة تانية تحتاجه.
+interface NewGoalInput {
+  title: string;
+  category?: string;
+}
+
 export function useGoals() {
-  const [goals, setGoals] = useLocalStorage(STORAGE_KEY, []);
+  const [goals, setGoals] = useLocalStorage<Goal[]>(STORAGE_KEY, []);
 
   const addGoal = useCallback(
-    ({ title, category = 'Personal' }) => {
+    ({ title, category = 'Personal' }: NewGoalInput) => {
       if (!title?.trim()) return;
-      const newGoal = {
+      const newGoal: Goal = {
         id: uid(),
         title: title.trim(),
         category,
@@ -22,14 +32,14 @@ export function useGoals() {
   );
 
   const deleteGoal = useCallback(
-    (id) => {
+    (id: string) => {
       setGoals((prev) => prev.filter((g) => g.id !== id));
     },
     [setGoals]
   );
 
   const addMilestone = useCallback(
-    (goalId, title) => {
+    (goalId: string, title: string) => {
       if (!title?.trim()) return;
       setGoals((prev) =>
         prev.map((g) =>
@@ -49,7 +59,7 @@ export function useGoals() {
   );
 
   const toggleMilestone = useCallback(
-    (goalId, milestoneId) => {
+    (goalId: string, milestoneId: string) => {
       setGoals((prev) =>
         prev.map((g) =>
           g.id === goalId
@@ -67,7 +77,7 @@ export function useGoals() {
   );
 
   const deleteMilestone = useCallback(
-    (goalId, milestoneId) => {
+    (goalId: string, milestoneId: string) => {
       setGoals((prev) =>
         prev.map((g) =>
           g.id === goalId
@@ -92,7 +102,7 @@ export function useGoals() {
   };
 }
 
-export function goalProgress(goal) {
+export function goalProgress(goal: Goal) {
   const total = goal.milestones.length;
   const done = goal.milestones.filter((m) => m.completed).length;
   const pct = total === 0 ? 0 : Math.round((done / total) * 100);

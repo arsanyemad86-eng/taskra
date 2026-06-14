@@ -1,15 +1,22 @@
 import { useCallback } from 'react';
-import { useLocalStorage, uid } from './useLocalStorage.js';
+import { useLocalStorage, uid } from './useLocalStorage.ts';
+import type { Note } from '../types/index.ts';
 
 const STORAGE_KEY = 'taskra_notes';
 
+interface NewNoteInput {
+  title: string;
+  category?: string;
+  content?: string;
+}
+
 export function useNotes() {
-  const [notes, setNotes] = useLocalStorage(STORAGE_KEY, []);
+  const [notes, setNotes] = useLocalStorage<Note[]>(STORAGE_KEY, []);
 
   const addNote = useCallback(
-    ({ title, category = 'Other', content = '' }) => {
+    ({ title, category = 'Other', content = '' }: NewNoteInput) => {
       if (!title?.trim()) return;
-      const newNote = {
+      const newNote: Note = {
         id: uid(),
         title: title.trim(),
         category,
@@ -22,8 +29,10 @@ export function useNotes() {
     [setNotes]
   );
 
+  // Partial<Note>: نفس فكرة Partial<Task> في useTasks - "تعديل جزئي"
+  // مش لازم يحتوي كل خصائص Note.
   const updateNote = useCallback(
-    (id, patch) => {
+    (id: string, patch: Partial<Note>) => {
       setNotes((prev) =>
         prev.map((n) =>
           n.id === id
@@ -36,7 +45,7 @@ export function useNotes() {
   );
 
   const deleteNote = useCallback(
-    (id) => {
+    (id: string) => {
       setNotes((prev) => prev.filter((n) => n.id !== id));
     },
     [setNotes]

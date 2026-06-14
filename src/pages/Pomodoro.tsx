@@ -1,7 +1,13 @@
-import { usePomodoro, MODES, formatTime } from '../hooks/usePomodoro.js';
+import { motion } from 'framer-motion';
+import { usePomodoro, MODES, formatTime } from '../hooks/usePomodoro.ts';
+import type { PomodoroMode } from '../types/index.ts';
 import './Pomodoro.css';
 
-const MODE_KEYS = ['focus', 'short', 'long'];
+// PomodoroMode[]: لازم نقول إن MODE_KEYS مصفوفة من نفس union type
+// المستخدم في MODES و switchMode. لو سيبناها string[] العادية،
+// TypeScript هيرفض MODES[m] و switchMode(m) لأن مفتاح MODES محدد
+// بـ 'focus' | 'short' | 'long' فقط.
+const MODE_KEYS: PomodoroMode[] = ['focus', 'short', 'long'];
 const RADIUS = 130;
 const CIRC = 2 * Math.PI * RADIUS;
 
@@ -31,7 +37,13 @@ export default function Pomodoro() {
         : 'var(--amber)';
 
   return (
-    <div className="pomodoro-page">
+    <motion.div
+      className="pomodoro-page"
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.2, ease: 'easeOut' }}
+    >
       <div className="page-header">
         <div>
           <h1>Pomodoro</h1>
@@ -53,7 +65,7 @@ export default function Pomodoro() {
       </div>
 
       <div className="timer-wrap">
-        <div className="timer-circle">
+        <div className={`timer-circle${running ? ' running' : ''}`}>
           <svg
             width="320"
             height="320"
@@ -125,6 +137,6 @@ export default function Pomodoro() {
           {toast}
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }

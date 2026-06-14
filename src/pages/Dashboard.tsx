@@ -1,21 +1,22 @@
 import { Link } from 'react-router-dom';
-import { useTasks, todayKey } from '../hooks/useTasks.js';
-import { useNotes } from '../hooks/useNotes.js';
-import { useGoals, goalProgress } from '../hooks/useGoals.js';
-import { usePomodoro } from '../hooks/usePomodoro.js';
-import { useStreak } from '../hooks/useStreak.js';
+import { motion } from 'framer-motion';
+import { useTasks, todayKey } from '../hooks/useTasks.ts';
+import { useNotes } from '../hooks/useNotes.ts';
+import { useGoals, goalProgress } from '../hooks/useGoals.ts';
+import { usePomodoro } from '../hooks/usePomodoro.ts';
+import { useStreak } from '../hooks/useStreak.ts';
 import './Dashboard.css';
 import { useAuth } from '../context/AuthContext';
 
 
-function greeting(name) {
+function greeting(name: string): { text: string; icon: string } {
   const h = new Date().getHours();
   if (h < 12) return { text: `Good morning, ${name}`, icon: '☀️' };
   if (h < 18) return { text: `Good afternoon, ${name}`, icon: '🌤️' };
   return { text: `Good evening, ${name}`, icon: '🌙' };
 }
 
-function streakMessage(count) {
+function streakMessage(count: number): string {
   if (count === 0) return 'Start your streak — complete one task today.';
   if (count < 3) return 'Building momentum. Keep going.';
   if (count < 7) return `${count} days strong! Don't break the chain.`;
@@ -46,7 +47,13 @@ export default function Dashboard() {
   });
 
   return (
-    <div className="dashboard">
+    <motion.div
+      className="dashboard"
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.2, ease: 'easeOut' }}
+    >
       <div className="dashboard-header">
         <h1>
           {g.text} <span aria-hidden="true">{g.icon}</span>
@@ -60,24 +67,28 @@ export default function Dashboard() {
           value={tasksToday.length}
           accent="blue"
           hint={`${tasksTodayPending.length} pending`}
+          icon="📋"
         />
         <StatCard
           label="Completed"
           value={stats.completed.length}
           accent="primary"
           hint={`${stats.completedToday.length} today`}
+          icon="✅"
         />
         <StatCard
           label="Active Goals"
           value={activeGoals.length}
           accent="amber"
           hint={`${goals.length} total`}
+          icon="🎯"
         />
         <StatCard
           label="Focus Time"
           value={`${todayStats.totalMinutes}m`}
           accent="primary"
           hint={`${todayStats.count} sessions`}
+          icon="⏱️"
         />
       </div>
 
@@ -231,15 +242,31 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
-function StatCard({ label, value, hint, accent }) {
+// StatCardProps: accent محصور بـ union type لأن CSS عندنا classes
+// جاهزة بس لـ stat-blue / stat-primary / stat-amber (وكذلك
+// stat-value-*). أي قيمة تانية هتبوظ الـ styling بصمت - الـ union بيمنع
+// كتابتها من الأساس. value: number | string لأنه بييجي مرة رقم
+// (tasksToday.length) ومرة نص (`${todayStats.totalMinutes}m`).
+interface StatCardProps {
+  label: string;
+  value: number | string;
+  hint?: string;
+  accent: 'blue' | 'primary' | 'amber';
+  icon: string;
+}
+
+function StatCard({ label, value, hint, accent, icon }: StatCardProps) {
   return (
     <div className={`stat-card stat-${accent}`}>
-      <div className="stat-label">{label}</div>
-      <div className="stat-value">{value}</div>
+      <div className="stat-top-row">
+        <div className="stat-label">{label}</div>
+        <div className="stat-icon" aria-hidden="true">{icon}</div>
+      </div>
+      <div className={`stat-value stat-value-${accent}`}>{value}</div>
       {hint && <div className="stat-hint">{hint}</div>}
     </div>
   );

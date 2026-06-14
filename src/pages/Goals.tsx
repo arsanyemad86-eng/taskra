@@ -1,9 +1,16 @@
-import { useState } from 'react';
-import { useGoals, goalProgress } from '../hooks/useGoals.js';
+import { useState, type FormEvent } from 'react';
+import { motion } from 'framer-motion';
+import { useGoals, goalProgress } from '../hooks/useGoals.ts';
 import './Goals.css';
 
 const CATEGORIES = ['Health', 'Learning', 'Career', 'Personal', 'Finance'];
-const blankForm = { title: '', category: 'Learning' };
+
+interface GoalFormState {
+  title: string;
+  category: string;
+}
+
+const blankForm: GoalFormState = { title: '', category: 'Learning' };
 
 export default function Goals() {
   const {
@@ -15,10 +22,13 @@ export default function Goals() {
     deleteMilestone,
   } = useGoals();
   const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState(blankForm);
-  const [milestoneDrafts, setMilestoneDrafts] = useState({}); // {goalId: text}
+  const [form, setForm] = useState<GoalFormState>(blankForm);
+  // Record<string, string>: object فيه أي عدد من المفاتيح (goal id)،
+  // كل واحد قيمته string - بديل TypeScript لتعليق `{goalId: text}`
+  // اللي كان موجود كـ comment في الكود الأصلي.
+  const [milestoneDrafts, setMilestoneDrafts] = useState<Record<string, string>>({});
 
-  const submit = (e) => {
+  const submit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!form.title.trim()) return;
     addGoal(form);
@@ -26,7 +36,7 @@ export default function Goals() {
     setShowForm(false);
   };
 
-  const submitMilestone = (goalId, e) => {
+  const submitMilestone = (goalId: string, e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const text = milestoneDrafts[goalId] || '';
     if (!text.trim()) return;
@@ -35,7 +45,13 @@ export default function Goals() {
   };
 
   return (
-    <div className="goals-page">
+    <motion.div
+      className="goals-page"
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.2, ease: 'easeOut' }}
+    >
       <div className="page-header">
         <div>
           <h1>Goals</h1>
@@ -102,7 +118,14 @@ export default function Goals() {
       )}
 
       {goals.length === 0 ? (
-        <div className="card empty">No goals yet. Set your first goal! 🎯</div>
+        <div className="card empty-state">
+          <div className="empty-icon">🎯</div>
+          <h3 className="empty-title">No goals yet</h3>
+          <p className="empty-sub">Set your first goal and break it into milestones.</p>
+          <button className="btn btn-primary" onClick={() => setShowForm(true)}>
+            + Add Goal
+          </button>
+        </div>
       ) : (
         <div className="goals-list">
           {goals.map((goal) => {
@@ -114,17 +137,19 @@ export default function Goals() {
                   ? 'var(--amber)'
                   : 'var(--red)';
             return (
-              <article key={goal.id} className="goal-card card">
+              <article key={goal.id} className="goal-card card" data-category={goal.category}>
                 <div className="goal-head">
                   <div>
                     <h3 className="goal-title">{goal.title}</h3>
                     <span className="badge badge-cat">{goal.category}</span>
                   </div>
                   <button
-                    className="btn btn-danger"
+                    className="goal-delete-btn"
                     onClick={() => deleteGoal(goal.id)}
+                    aria-label="Delete goal"
+                    title="Delete goal"
                   >
-                    Delete
+                    ✕
                   </button>
                 </div>
 
@@ -200,6 +225,6 @@ export default function Goals() {
           })}
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }
