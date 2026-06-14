@@ -1,18 +1,32 @@
 :root {
-  --bg: #0f1117;
-  --surface: #1a1d27;
-  --surface-2: #242736;
-  --border: #2e3146;
-  --text: #e2e4f0;
-  --text-muted: #8b8fa8;
   --primary: #6ee7b7;
   --amber: #fcd34d;
   --blue: #93c5fd;
   --red: #fca5a5;
   --radius: 12px;
   --navbar-height: 60px;
+}
+
+body.dark {
+  --bg: #0f1117;
+  --surface: #1a1d27;
+  --surface-2: #242736;
+  --border: #2e3146;
+  --text: #e2e4f0;
+  --text-muted: #8b8fa8;
 
   color-scheme: dark;
+}
+
+body.light {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
+  --border: #e2e8f0;
+  --text: #0f172a;
+  --text-muted: #64748b;
+
+  color-scheme: light;
 }
 
 * {
@@ -35,6 +49,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-size: 14px;
   line-height: 1.5;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 button {

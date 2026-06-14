@@ -1,80 +1,157 @@
 .settings-page {
-  padding: 32px;
-  max-width: 640px;
+  max-width: 600px;
 }
 
+/* ── Header ── */
+.settings-header {
+  margin-bottom: 32px;
+}
 .settings-header h1 {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #fff;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
   margin: 0;
 }
-
 .settings-sub {
-  color: #6b7280;
-  margin: 4px 0 32px;
+  color: var(--text-muted);
+  font-size: 13px;
+  margin: 5px 0 0;
 }
 
+/* ── Section ── */
 .settings-section h2 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #9ca3af;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
+}
+.settings-section + .settings-section {
+  margin-top: 28px;
 }
 
+/* ── Theme Toggle ── */
+.theme-toggle {
+  width: 52px;
+  height: 30px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.theme-toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  transition: transform 0.25s ease;
+}
+.theme-toggle.light .theme-toggle-thumb {
+  transform: translateX(22px);
+}
+.theme-toggle.light {
+  background: rgba(110, 231, 183, 0.15);
+  border-color: rgba(52, 211, 153, 0.3);
+}
+
+/* ── Settings Card ── */
 .settings-card {
-  background: #1a1d27;
-  border: 1px solid #2a2d3a;
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 20px 24px;
+  padding: 20px 22px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
+  transition: border-color 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+.settings-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--border);
+  transition: background 0.2s ease;
+}
+.settings-card:first-of-type::before { background: var(--primary); }
+.settings-card:last-of-type::before  { background: var(--blue); }
+
+.settings-card:hover {
+  border-color: rgba(255,255,255,0.08);
 }
 
 .settings-card-info h3 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
   margin: 0 0 4px;
 }
-
 .settings-card-info p {
-  font-size: 0.85rem;
-  color: #6b7280;
+  font-size: 12px;
+  color: var(--text-muted);
   margin: 0;
+  line-height: 1.5;
 }
 
+/* ── Buttons ── */
 .btn-export {
-  background: #4ade80;
-  color: #0f1117;
+  background: var(--primary);
+  color: #0b1812;
   border: none;
   border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 0.9rem;
+  padding: 9px 20px;
+  font-size: 13px;
   font-weight: 700;
   cursor: pointer;
   white-space: nowrap;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+  flex-shrink: 0;
 }
-
-.btn-export:hover { opacity: 0.85; }
+.btn-export:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+.btn-export:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
 
 .btn-import {
-  background: #1e293b;
-  color: #fff;
-  border: 1px solid #2a2d3a;
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 0.9rem;
+  padding: 9px 20px;
+  font-size: 13px;
   font-weight: 700;
   cursor: pointer;
   white-space: nowrap;
-  transition: border-color 0.2s;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
-
-.btn-import:hover { border-color: #4ade80; }
+.btn-import:hover {
+  border-color: rgba(52, 211, 153, 0.4);
+  color: var(--primary);
+  transform: translateY(-1px);
+}

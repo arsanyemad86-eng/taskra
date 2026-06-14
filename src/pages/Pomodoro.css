@@ -1,3 +1,4 @@
+/* ── Page Header ── */
 .pomodoro-page .page-header h1 {
   font-size: 22px;
   font-weight: 800;
@@ -8,50 +9,66 @@
   margin-top: 4px;
 }
 
+/* ── Mode Tabs ── */
 .mode-tabs {
   display: flex;
-  gap: 6px;
+  gap: 4px;
   background: var(--surface);
-  padding: 5px;
+  padding: 4px;
   border-radius: 12px;
   border: 1px solid var(--border);
   width: fit-content;
-  margin: 0 auto 28px;
+  margin: 0 auto 32px;
 }
 .mode-tab {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 18px;
-  border-radius: 8px;
+  gap: 7px;
+  padding: 9px 20px;
+  border-radius: 9px;
   font-size: 13px;
   font-weight: 600;
   color: var(--text-muted);
   transition: all 0.2s ease;
+  border: 1px solid transparent;
 }
-.mode-tab:hover { color: var(--text); }
+.mode-tab:hover {
+  color: var(--text);
+  background: rgba(255,255,255,0.04);
+}
 .mode-tab.active {
-  background: var(--surface-2);
+  background: rgba(52, 211, 153, 0.1);
   color: var(--primary);
+  border-color: rgba(52, 211, 153, 0.2);
 }
 .mode-min {
   font-size: 11px;
   font-weight: 500;
-  opacity: 0.7;
+  opacity: 0.6;
+  background: rgba(255,255,255,0.06);
+  padding: 1px 6px;
+  border-radius: 4px;
 }
 
+/* ── Timer Wrap ── */
 .timer-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
-  margin-bottom: 32px;
+  gap: 28px;
+  margin-bottom: 36px;
 }
 
+/* ── Timer Circle ── */
 .timer-circle {
   position: relative;
   width: 320px;
   height: 320px;
+  filter: drop-shadow(0 0 20px rgba(52, 211, 153, 0.12));
+  transition: filter 0.4s ease;
+}
+.timer-circle.running {
+  filter: drop-shadow(0 0 28px rgba(52, 211, 153, 0.22));
 }
 .timer-svg {
   display: block;
@@ -63,18 +80,18 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 4px;
   pointer-events: none;
 }
 .timer-mode {
-  font-size: 12px;
+  font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   color: var(--text-muted);
-  font-weight: 600;
+  font-weight: 700;
 }
 .timer-time {
-  font-size: 60px;
+  font-size: 62px;
   font-weight: 800;
   letter-spacing: -0.04em;
   font-variant-numeric: tabular-nums;
@@ -83,46 +100,92 @@
 .timer-session {
   font-size: 12px;
   color: var(--text-muted);
-  margin-top: 6px;
+  margin-top: 8px;
+  background: var(--surface-2);
+  padding: 3px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
 }
 
+/* ── Timer Controls ── */
 .timer-controls {
   display: flex;
   gap: 10px;
 }
 .timer-btn {
-  padding: 12px 28px;
-  font-size: 13px;
+  padding: 12px 32px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 10px;
+  min-width: 110px;
 }
 
+/* ── Pomodoro Stats ── */
 .pomo-stats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 14px;
-  max-width: 520px;
+  max-width: 440px;
   margin: 0 auto;
 }
 .pomo-stat {
   text-align: center;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.pomo-stat::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--primary);
+  border-radius: var(--radius) var(--radius) 0 0;
+  opacity: 0.5;
 }
 .pomo-stat-label {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.07em;
   font-weight: 600;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 .pomo-stat-value {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 800;
   color: var(--primary);
   letter-spacing: -0.02em;
+  line-height: 1;
 }
 
+/* ── Toast ── */
+.toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--surface);
+  border: 1px solid rgba(52, 211, 153, 0.3);
+  color: var(--primary);
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 200;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* ── Responsive ── */
 @media (max-width: 560px) {
   .timer-circle { width: 280px; height: 280px; }
-  .timer-svg { width: 280px; height: 280px; }
-  .timer-time { font-size: 48px; }
-  .pomo-stats { grid-template-columns: 1fr; }
+  .timer-svg    { width: 280px; height: 280px; }
+  .timer-time   { font-size: 50px; }
+  .pomo-stats   { grid-template-columns: 1fr; max-width: 100%; }
+  .timer-btn    { padding: 11px 24px; min-width: 95px; }
 }

@@ -1,8 +1,48 @@
-# ⚡ Taskra — Build. Focus. Compound.
+# ⚡ Taskra
 
-A clean, dark-mode productivity app built for developers and focused individuals. Manage tasks, notes, goals, and deep work sessions — all in one place.
+A focused productivity app for builders.
 
-🔗 **Live Demo:** [taskra-sepia.vercel.app](https://taskra-sepia.vercel.app)
+Manage your tasks, notes, goals, and deep work sessions — all in one clean, fast, dark/light interface. Built with React and TypeScript.
+
+---
+
+## Features
+
+- **Tasks** ✅ — Priorities, due dates, search, filters, and inline editing
+- **Notes** 📝 — Categorized notes with search, filters, and a quick-view modal
+- **Goals** 🎯 — Break big goals into trackable milestones with progress bars
+- **Pomodoro** ⏱️ — Focus timer with session tracking and a completion chime
+- **Streak** 🔥 — Daily streak tracking to keep your momentum going
+- **Export/Import** 💾 — Back up and restore all your data as JSON
+
+---
+
+## Tech Stack
+
+- React 18
+- TypeScript
+- Vite
+- React Router v6
+- Plain CSS (CSS variables, no framework)
+- localStorage for persistence
+
+---
+
+## Getting Started
+
+```bash
+# Install dependencies
+npm install
+
+# Start the dev server
+npm run dev
+```
+
+---
+
+## Live Demo
+
+🔗 [Coming soon]
 
 ---
 
@@ -12,101 +52,7 @@ A clean, dark-mode productivity app built for developers and focused individuals
 
 ---
 
-## Tech Stack
-
-| Technology | Purpose |
-|---|---|
-| React 18 | UI framework |
-| Vite | Build tool |
-| React Router v6 | Client-side routing |
-| localStorage | Persistent state |
-| CSS Custom Properties | Design system / theming |
-
----
-
-## Features
-
-- **Dashboard** — Daily overview with stat cards, today's tasks, recent notes, goals progress, and streak counter
-- **Tasks** — Priority badges, checkbox animations, search, and filter tabs
-- **Notes** — Card grid with categories and modal editor
-- **Goals** — Milestone tracking with progress bars
-- **Pomodoro** — Circular SVG timer with session counter
-
----
-
-## Design System
-
-```
-Font:       Outfit (Google Fonts)
-Mode:       Dark only
-
---bg:           #0f1117
---surface:      #1a1d27
---surface-2:    #242736
---border:       #2e3146
---text:         #e2e4f0
---text-muted:   #8b8fa8
---primary:      #6ee7b7  (mint green)
---amber:        #fcd34d
---blue:         #93c5fd
---red:          #fca5a5
---radius:       12px
-```
-
----
-
-## Getting Started
-
-```bash
-# Clone the repo
-git clone https://github.com/arsanyemad86-eng/taskra.git
-
-# Navigate to project
-cd taskra
-
-# Install dependencies
-npm install
-
-# Start dev server
-npm run dev
-```
-
----
-
-## Project Structure
-
-```
-src/
-├── components/
-│   ├── Navbar.jsx
-│   └── Sidebar.jsx
-├── hooks/
-│   ├── useGoals.js
-│   ├── useNotes.js
-│   ├── usePomodoro.js
-│   ├── useStreak.js
-│   └── useTasks.js
-├── pages/
-│   ├── Dashboard.jsx
-│   ├── Tasks.jsx
-│   ├── Notes.jsx
-│   ├── Goals.jsx
-│   └── Pomodoro.jsx
-└── main.jsx
-```
-
----
-
-## Other Projects
-
-| Project | Description | Live |
-|---|---|---|
-| [UXNIN Store](https://github.com/arsanyemad86-eng/uxnin-store) | Fitness supplements e-commerce | — |
-| [FinTrack](https://github.com/arsanyemad86-eng/finance-tracker) | Personal finance tracker | [Live](https://finance-tracker-gamma-ashen.vercel.app) |
-
----
-
 ## Author
 
-**Arsany Emad** — Front-End Developer  
+**Arsany Emad** — Front-End Developer
 GitHub: [@arsanyemad86-eng](https://github.com/arsanyemad86-eng)
