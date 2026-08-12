@@ -5,6 +5,7 @@ import { AuthProvider, useAuth } from './context/AuthContext.tsx';
 import { useKeyboardShortcuts, SHORTCUTS } from './hooks/useKeyboardShortcuts.ts';
 import Navbar from './components/Navbar.tsx';
 import Onboarding from './components/Onboarding.tsx';
+import Home from './pages/Home.tsx';
 import Dashboard from './pages/Dashboard.tsx';
 import Tasks from './pages/Tasks.tsx';
 import Notes from './pages/Notes.tsx';
@@ -28,7 +29,16 @@ function AppContent() {
     onHelp: () => setShowShortcuts((v) => !v),
   });
 
-  if (!user) return <Login />;
+  // Not signed in: public landing (Home) + Login, everything else redirects to Home
+  if (!user) {
+    return (
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    );
+  }
 
   if (!onboarded) {
     return <Onboarding onFinish={() => setOnboarded(true)} />;
